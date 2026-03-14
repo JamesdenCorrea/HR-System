@@ -20,6 +20,14 @@
                         {{ __('Employees') }}
 </x-nav-link>
 @endhasanyrole
+<x-nav-link :href="route('attendance.clock')" :active="request()->routeIs('attendance.clock')">
+    {{ __('My Attendance') }}
+</x-nav-link>
+@hasanyrole('admin|hr')
+<x-nav-link :href="route('hr.attendance.index')" :active="request()->routeIs('hr.attendance.*')">
+    {{ __('Attendance') }}
+</x-nav-link>
+@endhasanyrole
                 </div>
             </div>
 
