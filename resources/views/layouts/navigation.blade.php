@@ -37,6 +37,20 @@
                         {{ __('Leaves') }}
                     </x-nav-link>
                     @endhasanyrole
+
+                    {{-- HR can Request accounts --}}
+                    @hasanyrole('admin|hr')
+                    <x-nav-link :href="route('account-requests.index')" :active="request()->routeIs('account-requests.*')">
+                        {{ __('Account Requests') }}
+                    </x-nav-link>
+                    @endhasanyrole
+
+                    {{-- Admin sees all request --}}
+                    @hasrole('admin')
+                    <x-nav-link :href="route('admin.account-requests.index')" :active="request()->routeIs('admin.account-requests.*')">
+                        {{ __('Manage Accounts') }}
+                    </x-nav-link>
+                @endrole
                 </div>
             </div>
 

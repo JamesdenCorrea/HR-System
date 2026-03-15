@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\LeaveController;
+use App\Http\Controllers\AccountRequestController;
+use App\Http\Controllers\PasswordChangeController;
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -20,8 +22,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    // Clock in/out (authenticated users)
+    // Force password change
+    Route::get('/change-password', [PasswordChangeController::class, 'show'])->name('password.change');
+    Route::post('/change-password', [PasswordChangeController::class, 'update'])->name('password.change.update');
 
+    // Clock in/out (authenticated users)
     Route::get('/attendance/clock', [AttendanceController::class, 'clockPage'])->name('attendance.clock');
     Route::post('/attendance/clock-in', [AttendanceController::class, 'clockIn'])->name('attendance.clock-in');
     Route::post('/attendance/clock-out', [AttendanceController::class, 'clockOut'])->name('attendance.clock-out');
@@ -31,11 +36,19 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/leaves/create', [LeaveController::class, 'create'])->name('leaves.create');
     Route::post('/leaves', [LeaveController::class, 'store'])->name('leaves.store');
 
+    // Account requests - HR submits
+    Route::get('/account-requests', [AccountRequestController::class, 'index'])->name('account-requests.index');
+    Route::get('/account-requests/create', [AccountRequestController::class, 'create'])->name('account-requests.create');
+    Route::post('/account-requests', [AccountRequestController::class,'store'])->name('account-requests.store');
+
 });
 
 // Admin only
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
     // Admin routes will go here
+    Route::get('account-requests', [AccountRequestController::class, 'adminIndex'])->name('account-requests.index');
+    Route::post('account-requests/{accountRequest}/approve', [AccountRequestController::class, 'approve'])->name('account-requests.approve');
+    Route::post('account-requests/{accountRequest}/reject', [AccountRequestController::class, 'reject'])->name('account-requests.reject');
 });
 
 // Admin and HR
