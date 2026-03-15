@@ -18,16 +18,25 @@
                     @hasanyrole('admin|hr')
                     <x-nav-link :href="route('hr.employees.index')" :active="request()->routeIs('hr.employees.*')">
                         {{ __('Employees') }}
-</x-nav-link>
-@endhasanyrole
-<x-nav-link :href="route('attendance.clock')" :active="request()->routeIs('attendance.clock')">
-    {{ __('My Attendance') }}
-</x-nav-link>
-@hasanyrole('admin|hr')
-<x-nav-link :href="route('hr.attendance.index')" :active="request()->routeIs('hr.attendance.*')">
-    {{ __('Attendance') }}
-</x-nav-link>
-@endhasanyrole
+                    </x-nav-link>
+                    @endhasanyrole
+                    <x-nav-link :href="route('attendance.clock')" :active="request()->routeIs('attendance.clock')">
+                        {{ __('My Attendance') }}
+                    </x-nav-link>
+                    @hasanyrole('admin|hr')
+                    <x-nav-link :href="route('hr.attendance.index')" :active="request()->routeIs('hr.attendance.*')">
+                        {{ __('Attendance') }}
+                    </x-nav-link>
+                    @endhasanyrole
+                    <x-nav-link :href="route('leaves.my')" :active="request()->routeIs('leaves.my') || request()->routeIs('leaves.create')">
+                        {{ __('My Leaves') }}
+                    </x-nav-link>
+
+                    @hasanyrole('admin|hr')
+                    <x-nav-link :href="route('hr.leaves.index')" :active="request()->routeIs('hr.leaves.*')">
+                        {{ __('Leaves') }}
+                    </x-nav-link>
+                    @endhasanyrole
                 </div>
             </div>
 

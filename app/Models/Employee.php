@@ -41,4 +41,15 @@ class Employee extends Model
     {
         return $this->hasMany(Attendance::class);
     }
+
+    public function leaves()
+    {
+        return $this->hasMany(Leave::class);
+    }
+    
+    public function leaveBalance()
+    {
+        return $this->hasOne(LeaveBalance::class)
+        ->where('year', now()->year);
+    }
 }

@@ -5,6 +5,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\LeaveController;
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -23,7 +24,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/attendance/clock', [AttendanceController::class, 'clockPage'])->name('attendance.clock');
     Route::post('/attendance/clock-in', [AttendanceController::class, 'clockIn'])->name('attendance.clock-in');
-    Route::post('/attendance/clock-out', [AttendanceController::class, 'clockOut'])->name('attendance.clock-out');   
+    Route::post('/attendance/clock-out', [AttendanceController::class, 'clockOut'])->name('attendance.clock-out');
+    
+    // Leave - employee routes
+    Route::get('/leaves/my', [LeaveController::class, 'myLeaves'])->name('leaves.my');
+    Route::get('/leaves/create', [LeaveController::class, 'create'])->name('leaves.create');
+    Route::post('/leaves', [LeaveController::class, 'store'])->name('leaves.store');
 
 });
 
@@ -42,6 +48,13 @@ Route::middleware(['auth', 'role:admin,hr'])->prefix('hr')->name('hr.')->group(f
     Route::get('attendance/create', [AttendanceController::class, 'create'])->name('attendance.create');
     Route::post('attendance', [AttendanceController::class, 'store'])->name('attendance.store');
     Route::get('attendance/monthly', [AttendanceController::class, 'monthlyReport'])->name('attendance.monthly');
+
+    //Leave management
+    Route::get('leaves', [LeaveController::class, 'index'])->name('leaves.index');
+    Route::get('leaves/{leave}', [LeaveController::class, 'show'])->name('leaves.show');
+    Route::post('leaves/{leave}/approve', [LeaveController::class, 'approve'])->name('leaves.approve');
+    Route::post('leaves/{leave}/reject', [LeaveController::class, 'reject'])->name('leaves.reject');
+    Route::get('leave-balances', [LeaveController::class, 'balances'])->name('leaves.balances');
 });
 
 require __DIR__.'/auth.php';

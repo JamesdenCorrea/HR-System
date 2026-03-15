@@ -88,7 +88,7 @@ public function index(Request $request)
         // clock out
         public function clockOut(Request $request)
         {
-            $employee = Empoyee::where('user_id', auth()->id()->firstOrFail());
+            $employee = Employee::where('user_id', auth()->id())->firstOrFail();
             $attendance = Attendance::where('employee_id', $employee->id)
             ->whereDate('date', Carbon::today())
             ->firstOrFail();
