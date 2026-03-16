@@ -42,7 +42,7 @@ class EmployeesExport implements FromCollection, WithHeadings, WithMapping, With
             $employee->phone ?? '—',
             $employee->department,
             $employee->position,
-            $employee->date_hired->format('F d, Y'),
+            \Carbon\Carbon::parse($employee->date_hired)->format('F d, Y'),
             ucfirst($employee->employment_status),
         ];
     }
