@@ -60,6 +60,11 @@
                     <x-nav-link :href="route('payroll.my-payslips')" :active="request()->routeIs('payroll.my-payslips')">
                         {{ __('My Payslips') }}
                     </x-nav-link>
+                    @hasanyrole('admin|hr')
+                    <x-nav-link :href="route('hr.reports.index')" :active="request()->routeIs('hr.reports.*')">
+                        {{ __('Reports') }}
+                    </x-nav-link>
+                    @endhasanyrole
                 </div>
             </div>
 

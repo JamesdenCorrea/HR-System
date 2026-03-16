@@ -9,6 +9,7 @@ use App\Http\Controllers\LeaveController;
 use App\Http\Controllers\AccountRequestController;
 use App\Http\Controllers\PasswordChangeController;
 use App\Http\Controllers\PayrollController;
+use App\Http\Controllers\ReportController;
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -83,6 +84,14 @@ Route::middleware(['auth', 'role:admin,hr'])->prefix('hr')->name('hr.')->group(f
     Route::get('payroll-salary/{employee}/edit', [PayrollController::class, 'salaryEdit'])->name('payroll.salary-edit');
     Route::post('payroll-salary/{employee}', [PayrollController::class, 'salaryUpdate'])->name('payroll.salary-update');
 
+    // Reports
+    Route::get('reports', [ReportController::class, 'index'])->name('reports.index');
+    Route::get('reports/employees', [ReportController::class, 'employees'])->name('reports.employees');
+    Route::get('reports/attendance', [ReportController::class, 'attendance'])->name('reports.attendance');
+    Route::get('reports/leaves', [ReportController::class, 'leaves'])->name('reports.leaves');
+    Route::get('reports/payroll', [ReportController::class, 'payroll'])->name('reports.payroll');
+    Route::get('reports/export/{type}/excel', [ReportController::class, 'exportExcel'])->name('reports.export.excel');
+    Route::get('reports/export/{type}/pdf', [ReportController::class, 'exportPdf'])->name('reports.export.pdf');
 });
 
 require __DIR__.'/auth.php';
