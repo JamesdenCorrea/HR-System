@@ -51,6 +51,15 @@
                         {{ __('Manage Accounts') }}
                     </x-nav-link>
                 @endrole
+                @hasanyrole('admin|hr')
+                    <x-nav-link :href="route('hr.payroll.index')" :active="request()->routeIs('hr.payroll.*')">
+                        {{ __('Payroll') }}
+                    </x-nav-link>
+                    @endhasanyrole
+
+                    <x-nav-link :href="route('payroll.my-payslips')" :active="request()->routeIs('payroll.my-payslips')">
+                        {{ __('My Payslips') }}
+                    </x-nav-link>
                 </div>
             </div>
 

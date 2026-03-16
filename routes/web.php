@@ -8,6 +8,7 @@ use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\LeaveController;
 use App\Http\Controllers\AccountRequestController;
 use App\Http\Controllers\PasswordChangeController;
+use App\Http\Controllers\PayrollController;
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -16,6 +17,8 @@ Route::get('/', function () {
 // Authenticated routes
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    // employee view own payslips
+    Route::get('/my-payslips', [PayrollController::class, 'myPayslips'])->name('payroll.my-payslips');
 
     // Breeze profile routes (required by navigation.blade.php)
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -68,6 +71,18 @@ Route::middleware(['auth', 'role:admin,hr'])->prefix('hr')->name('hr.')->group(f
     Route::post('leaves/{leave}/approve', [LeaveController::class, 'approve'])->name('leaves.approve');
     Route::post('leaves/{leave}/reject', [LeaveController::class, 'reject'])->name('leaves.reject');
     Route::get('leave-balances', [LeaveController::class, 'balances'])->name('leaves.balances');
+
+    //Payroll management
+    Route::get('payroll', [PayrollController::class, 'index'])->name('payroll.index');
+    Route::get('payroll/create', [PayrollController::class, 'create'])->name('payroll.create');
+    Route::post('payroll', [PayrollController::class, 'store'])->name('payroll.store');
+    Route::get('payroll/{payroll}', [PayrollController::class, 'show'])->name('payroll.show');
+    Route::post('payroll/{payroll}/release',[PayrollController::class, 'release'])->name('payroll.release');
+    Route::get('payroll/{payroll}/pdf', [PayrollController::class, 'downloadPdf'])->name('payroll.pdf');
+    Route::get('payroll-salary', [PayrollController::class, 'salaryIndex'])->name('payroll.salary-index');
+    Route::get('payroll-salary/{employee}/edit', [PayrollController::class, 'salaryEdit'])->name('payroll.salary-edit');
+    Route::post('payroll-salary/{employee}', [PayrollController::class, 'salaryUpdate'])->name('payroll.salary-update');
+
 });
 
 require __DIR__.'/auth.php';

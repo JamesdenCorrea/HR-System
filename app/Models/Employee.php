@@ -52,4 +52,14 @@ class Employee extends Model
         return $this->hasOne(LeaveBalance::class)
         ->where('year', now()->year);
     }
+
+    public function payrolls()
+    {
+        return $this->hasMany(Payroll::class);
+    }
+
+    public function salaryInformation()
+    {
+        return $this->hasOne(SalaryInformation::class);
+    }
 }
